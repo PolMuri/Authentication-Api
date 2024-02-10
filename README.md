@@ -34,14 +34,7 @@ Preparar i aixecar l'API Flask del register:
     
     Això retornarà un token i registrarà l'usuari a la base de dades.
     
-6. **Altres Comandes Útils:**
-    
-    - **Curl per obtenir un Usuari:**
-        
-        
-        `curl http://127.0.0.1:5000/api/user/<token>/`
-        
-         També es pot cercer l'usuari al fitxer db.json creat de forma automàtica si no existeix
+    Es pot cercar l'usuari registrat al fitxer db.json creat de forma automàtica si no existeix ja aquest fitxer que actua com a BD.
 
 ## Estructures del Projecte
 

@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from register import add_user, is_valid_email, generate_token
 
 app = Flask(__name__)
 
-# Definició de la ruta per registrar usuaris mitjançant una sol·licitud POST
+# Definició de la ruta per registrar usuaris mitjançant una sol·licitud POST, al ser una API hem 
+# d'obligar a que només vagi per POST
 @app.route('/api/register/', methods=['POST'])
 def register_user():
     # Obtenir les dades del cos de la sol·licitud POST en format JSON

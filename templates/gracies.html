@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <!-- Metadades del document -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gràcies pel registre</title>
+</head>
+<body>
+    <!-- Contingut principal -->
+    <h1>Gràcies pel registre</h1>
+    {% if success %}
+        <!-- Mostra aquest paràgraf si el registre ha estat exitós -->
+        <p>Registre exitós! Benvingut, {{ email }}.</p>
+    {% else %}
+        <!-- Mostra aquest paràgraf si hi ha hagut un error en el registre -->
+        <p>Hi ha hagut un error en el registre. Si us plau, intenta-ho de nou.</p>
+    {% endif %}
+</body>
+</html>
+

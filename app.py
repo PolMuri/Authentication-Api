@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, render_template, redirect
 from register import add_user, is_valid_email, generate_token
 
 app = Flask(__name__)
@@ -31,8 +31,22 @@ def register_user():
         # Retornar una resposta d'error si l'adreça de correu no és vàlida
         return jsonify({"error": "Invalid email"}), 400
 
+# Ruta per mostrar el formulari
+@app.route('/formulari')
+def mostrar_formulari():
+    return render_template('register.html')
+
+# Ruta per mostrar la pàgina d'índex
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/gracies')
+def gracies():
+    success = request.args.get('success')
+    email = request.args.get('email')
+    return render_template('gracies.html', success=success, email=email)
+
 # Executar l'aplicació si aquest fitxer s'està executant com a script principal
 if __name__ == '__main__':
     app.run(debug=True)
-
-

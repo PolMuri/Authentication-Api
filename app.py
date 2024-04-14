@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, url_for, render_template, redirect
 from register import add_user, is_valid_email, generate_token
 from init import initialize_password
 from login import login
+from verify import verify_token
 
 app = Flask(__name__)
 
@@ -75,6 +76,24 @@ def user_login():
     else:
         # Si les credencials no són vàlides, es retorna un missatge d'error amb un codi d'estat HTTP 401
         return jsonify({"error": "Invalid email or password"}), 401
+    
+# Ruta per verificar un token
+@app.route('/api/verify', methods=['POST'])
+def verify_token_route():
+    # Obté les dades JSON de la sol·licitud POST
+    data = request.get_json()
+    # Obté el token de les dades rebudes
+    token = data.get('token')
+
+    if not token:
+        # Si no es proporciona el token, retorna un error
+        return jsonify({"error": "Es requereix el token"}), 400
+
+    # Verifica el token utilitzant la funció verify_token
+    result = verify_token(token)
+
+    # Retorna el resultat de la verificació del token
+    return jsonify(result)
 
 
 # Ruta per mostrar el formulari

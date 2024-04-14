@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicialitzar Contrasenya</title>
+</head>
+<body>
+    <h1>Inicialitzar Contrasenya</h1>
+    <form id="initForm">
+        <label for="token">Token:</label>
+        <input type="text" id="token" name="token" required>
+        <br>
+        <label for="password">Contrasenya:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="button" value="Inicialitzar" onclick="initPassword()">
+    </form>
+
+    <script>
+        function initPassword() {
+            var token = document.getElementById("token").value;
+            var password = document.getElementById("password").value;
+
+            var data = {
+                "token": token,
+                "password": password
+            };
+
+            fetch("/api/init/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Éxit:', data);
+                alert("Contrasenya inicialitzada correctament");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error en la inicialització de la contrasenya");
+            });
+        }
+    </script>
+    <a href="/login">Iniciar sessió</a>
+</body>
+</html>

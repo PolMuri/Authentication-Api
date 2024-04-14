@@ -80,20 +80,25 @@ def user_login():
 # Ruta per verificar un token
 @app.route('/api/verify', methods=['POST'])
 def verify_token_route():
-    # Obté les dades JSON de la sol·licitud POST
+    # Obtenir les dades JSON de la sol·licitud POST
     data = request.get_json()
-    # Obté el token de les dades rebudes
+    # Obtenir el token de les dades rebudes
     token = data.get('token')
 
     if not token:
-        # Si no es proporciona el token, retorna un error
-        return jsonify({"error": "Es requereix el token"}), 400
+        # Si no es proporciona el token, retornar un error amb un codi d'estat 400
+        return jsonify({"error": "Token is required"}), 400
 
-    # Verifica el token utilitzant la funció verify_token
+    # Verificar el token utilitzant la funció verify_token
     result = verify_token(token)
 
-    # Retorna el resultat de la verificació del token
-    return jsonify(result)
+    # Verificar si és un diccionari i conté una clau 'error'
+    if isinstance(result, dict) and 'error' in result:
+        # Si resulta conté un error, retornar aquest error amb un codi d'estat 400
+        return jsonify(result), 400
+    else:
+        # Si resulta no conté un error, retornar el resultat de la verificació del token
+        return jsonify(result)
 
 
 # Ruta per mostrar el formulari
@@ -111,6 +116,22 @@ def gracies():
     success = request.args.get('success')
     email = request.args.get('email')
     return render_template('gracies.html', success=success, email=email)
+
+# Ruta per mostrar el formulari d'inicialització de contraseña
+@app.route('/init', methods=['GET'])
+def init_form():
+    return render_template('init.html')
+
+# Ruta per mostrar el formulari d'inici de sessió
+@app.route('/login', methods=['GET'])
+def login_form():
+    return render_template('login.html')
+
+# Ruta per mostrar el formulari de verificació del token 
+@app.route('/verify', methods=['GET'])
+def verify_form():
+    return render_template('verify.html')
+
 
 # Executar l'aplicació si aquest fitxer s'està executant com a script principal
 if __name__ == '__main__':

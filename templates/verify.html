@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Token</title>
+</head>
+<body>
+    <h1>Verificar Token</h1>
+    <form id="verifyForm">
+        <label for="token">Token:</label>
+        <input type="text" id="token" name="token" required>
+        <br>
+        <input type="button" value="Verificar" onclick="verifyToken()">
+    </form>
+
+    <script>
+        function verifyToken() {
+            var token = document.getElementById("token").value;
+
+            var data = {
+                "token": token
+            };
+
+            fetch("/api/verify", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Éxit:', data);
+                // Verificar si el token es válido
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert("El token és vàlid");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error en la verificació del token");
+            });
+        }
+    </script>
+</body>
+</html>
+

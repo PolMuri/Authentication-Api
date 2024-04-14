@@ -10,9 +10,15 @@ def verify_token(bearer_token):
     try:
         # Intenta decodificar el token utilizant la clau pública.
         decoded_token = instance.decode(bearer_token, verifying_key, do_time_check=True)
-        return decoded_token  # Devuelve el token decodificado
+
+        # Verifica si el token decodificat és None o si sla seva longitud és 0
+        if decoded_token is None or len(decoded_token) == 0:
+            return {"error": "Error verifying token: decoded token is invalid"}
+        
+        # Si el token és vàlid el tornem
+        return decoded_token
     except Exception as e:
-        # En cas d'error, mostra un missatge d'error.
+        # En caso d'error, mostra un missatge d'error.
         return {"error": f"Error verifying token: {e}"}
 
 # Crida la funció verify_token si s'executa el fitxer com script principal

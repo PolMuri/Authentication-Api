@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sessió</title>
+</head>
+<body>
+    <h1>Iniciar Sessió</h1>
+    <form id="loginForm">
+        <label for="email">Correu electrònic:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">Contrasenya:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="button" value="Iniciar Sessió" onclick="login()">
+    </form>
+    
+    <!-- Div para mostrar el token -->
+    <div id="tokenDisplay" style="display: none;">
+        <h2>Token d'autenticació:</h2>
+        <p id="tokenValue"></p>
+    </div>
+
+    <script>
+        function login() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var data = {
+                "email": email,
+                "password": password
+            };
+
+            fetch("/api/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Éxit:', data);
+                // Mostrar el token en la pantalla
+                document.getElementById("tokenValue").innerText = data.token;
+                document.getElementById("tokenDisplay").style.display = "block";
+                alert("Sessió iniciada correctament");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error en l'inici de sessió");
+            });
+        }
+    </script>
+    <a href="/verify">Verificar usuari amb Bearer token</a>
+</body>
+</html>
+

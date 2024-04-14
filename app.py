@@ -115,7 +115,8 @@ def index():
 def gracies():
     success = request.args.get('success')
     email = request.args.get('email')
-    return render_template('gracies.html', success=success, email=email)
+    token = request.args.get('token')  # Obtener el token de los argumentos de la URL
+    return render_template('gracies.html', success=success, email=email, token=token)
 
 # Ruta per mostrar el formulari d'inicialització de contraseña
 @app.route('/init', methods=['GET'])

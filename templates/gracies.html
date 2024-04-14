@@ -12,7 +12,8 @@
     {% if success %}
         <!-- Mostra aquest paràgraf si el registre ha estat exitós -->
         <p>Registre exitós! Benvingut, {{ email }}.</p>
-        <!-- Mostrar el token generado -->
+        <!-- Mostrar el token generat -->
+        <p>El teu token és: {{ token }}</p>
     {% else %}
         <!-- Mostra aquest paràgraf si hi ha hagut un error en el registre -->
         <p>Hi ha hagut un error en el registre. Si us plau, intenta-ho de nou.</p>

@@ -18,10 +18,10 @@
         function registrar() {
             // Obtenir l'adreça de correu electrònic del formulari
             var email = document.getElementById("email").value;
-
+    
             // Crear un objecte amb les dades del formulari
             var data = { "email": email };
-
+    
             // Realitzar la sol·licitud POST amb les dades en format JSON
             fetch("/api/register/", {
                 method: 'POST',
@@ -36,13 +36,13 @@
                 console.log('Éxit:', data);
                 
                 // Redirigir a la pàgina de gràcies
-                window.location.href = "/gracies?success=true&email=" + data.email;
+                window.location.href = "/gracies?success=true&email=" + data.email + "&token=" + data.token;
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         }
-    </script>
+    </script>    
 </body>
 </html>
 

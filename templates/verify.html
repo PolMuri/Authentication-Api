@@ -14,6 +14,15 @@
         <input type="button" value="Verificar" onclick="verifyToken()">
     </form>
 
+    <!-- Aquí es mostrarà el missatge de sessió iniciada -->
+    <div id="sessionMessage" style="display: none;">
+        <h2>Sessió iniciada correctament</h2>
+        <!-- Aquí pots mostrar qualsevol altra informació relacionada amb la sessió -->
+        <p>Correu electrònic: <span id="email"></span></p>
+        <p>Data d'inici de sessió: <span id="loginDate"></span></p>
+        <p>Data d'expiració de la sessió: <span id="expiryDate"></span></p>
+    </div>
+
     <script>
         function verifyToken() {
             var token = document.getElementById("token").value;
@@ -31,17 +40,28 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('La resposta de la xarxa no és vàlida');
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Éxit:', data);
-                // Verificar si el token es válido
+                console.log('Èxit:', data);
+                // Verificar si el token és vàlid
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    alert("El token és vàlid");
+                    // Mostrar el missatge de sessió iniciada
+                    document.getElementById("sessionMessage").style.display = "block";
+                    // Omplir la informació de la sessió si està disponible a la resposta JSON
+                    if (data.mail) {
+                        document.getElementById("email").innerText = data.mail;
+                    }
+                    if (data.iat) {
+                        document.getElementById("loginDate").innerText = new Date(data.iat * 1000).toLocaleString();
+                    }
+                    if (data.exp) {
+                        document.getElementById("expiryDate").innerText = new Date(data.exp * 1000).toLocaleString();
+                    }
                 }
             })
             .catch(error => {
@@ -52,4 +72,5 @@
     </script>
 </body>
 </html>
+
 

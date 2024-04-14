@@ -1,4 +1,11 @@
-__pycache__
-'pycache/*
+bd.json
 db.json
+db2.json
 *.json
+oauthProva.py
+*.pem
+pem
+private.pem
+public.pem
+__pycache__/
+__pycache__

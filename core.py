@@ -21,7 +21,7 @@ from jwt import (
 )
 from jwt.utils import get_int_from_datetime
 
-def crearBearer (mail):
+def createBearer (mail):
     # Funció per crear un token JWT (JSON Web Token) a partir de l'adreça de correu.
     instance = JWT()
 

@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, url_for, render_template, redirect
 from register import add_user, is_valid_email, generate_token
 from init import initialize_password
+from login import login
 
 app = Flask(__name__)
 
@@ -51,6 +52,29 @@ def init_password():
 
     # Retornar una resposta
     return jsonify({"message": "Password initialized successfully"}), 200
+
+# Definició d'una nova ruta per a l'inici de sessió de l'usuari 
+@app.route('/api/login', methods=['POST'])
+def user_login():
+    # Obtenció de les dades JSON de la sol·licitud POST
+    data = request.get_json()
+    # Obtenció de l'adreça electrònica (email) i la contrasenya de les dades rebudes
+    email = data.get('email')
+    password = data.get('password')
+
+    # Comprovació de si es proporciona l'email i la contrasenya
+    if not email or not password:
+        # Si algun dels dos camps falta, es retorna un error
+        return jsonify({"error": "Email and password are required"}), 400
+
+     # Intent d'iniciar sessió amb les credencials proporcionades
+    token = login(email, password)
+    if token:
+        # Si les credencials són vàlides, es retorna un token d'autenticació amb un codi d'estat HTTP 200
+        return jsonify({"token": token}), 200
+    else:
+        # Si les credencials no són vàlides, es retorna un missatge d'error amb un codi d'estat HTTP 401
+        return jsonify({"error": "Invalid email or password"}), 401
 
 
 # Ruta per mostrar el formulari

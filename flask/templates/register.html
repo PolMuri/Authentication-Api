@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulari de Registre</title>
+</head>
+<body>
+    <h1>Formulari de Registre</h1>
+    <form id="registrationForm">
+        <label for="email">Correu electrònic:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <input type="button" value="Registrar" onclick="registrar()">
+    </form>
+
+    <script>
+        function registrar() {
+            // Obtenir l'adreça de correu electrònic del formulari
+            var email = document.getElementById("email").value;
+    
+            // Crear un objecte amb les dades del formulari
+            var data = { "email": email };
+    
+            // Realitzar la sol·licitud POST amb les dades en format JSON
+            fetch("/api/register/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Manejar la resposta
+                console.log('Éxit:', data);
+                
+                // Redirigir a la pàgina de gràcies
+                window.location.href = "/gracies?success=true&email=" + data.email + "&token=" + data.token;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>    
+</body>
+</html>
+

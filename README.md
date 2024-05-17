@@ -1,7 +1,14 @@
-Preparar i aixecar l'API Flask del register:
+Preparar i aixecar l'API Flask del register, hi ha dues maneres, amb Docker o amb Flask:
 
+## Amb Docker
 
-## Configuració Inicial  
+# Primer construint la imatge
+``docker image build -t register_docker1 .``
+
+# Aixecant la imatge
+``docker run -p 80:5000 register_docker1``
+
+## Configuració Inicial per aixecar l'aplicació amb Flask  
 
 1. **Clonar el Repositori:**   
      ```git clone <url_del_repositori.git>  cd <nom_del_directori>`

@@ -1,12 +1,51 @@
 Preparar i aixecar l'API Flask del register, hi ha dues maneres, amb Docker o amb Flask:
 
-## Amb Docker
+## Requisits per Docker
+- Docker
+- Git
 
-# Primer construint la imatge
-``docker image build -t register_docker1 .``
+## Instruccions per a construir i executar l'aplicació amb Docker
 
-# Aixecant la imatge
-``docker run -p 80:5000 register_docker1``
+1. **Clonar el repositori:**
+
+    ```
+    git clone https://github.com/el-teu-usuari/el-teu-repositori.git
+    cd el-teu-repositori
+    ```
+
+2. **Construir la imatge de Docker:**
+
+    ```
+    docker image build -t register_docker1 .
+    ```
+
+3. **Executar el contenidor:**
+
+    ```
+    docker run -p 80:5000 register_docker1
+    ```
+
+   o si vols controlar exactament on es guarden aquestes dades persistents en el teu sistema host, has d'utilitzar l'opció -v quan executis el contenidor. Això et permet muntar un directori 
+   específic del teu sistema host en lloc del volum anònim que Docker crea per defecte.
+
+   ```
+    docker run -p 80:5000 -v /path/to/local/folder:/data register_docker1
+   ```
+   
+
+    Nota: Substitueix `/path/to/local/folder` pel camí real al teu sistema on vols emmagatzemar les dades persistents.
+
+5. **Verificar que l'aplicació està en funcionament:**
+
+    Obre un navegador i accedeix a `http://localhost:80`. Hauries de veure l'aplicació en funcionament.
+
+6. **Fer una petició de prova amb `curl`:**
+
+    ```
+    curl -d '{"email":"bustia@decorreu.com"}' -H "Content-Type: application/json" -X POST http://localhost/api/register/
+    ```
+
+
 
 ## Configuració Inicial per aixecar l'aplicació amb Flask  
 

@@ -9,8 +9,8 @@ Preparar i aixecar l'API Flask del register, hi ha dues maneres, amb Docker o am
 1. **Clonar el repositori:**
 
     ```
-    git clone https://github.com/el-teu-usuari/el-teu-repositori.git
-    cd el-teu-repositori
+    git clone https://github.com/PolMuri/api.git
+    cd api
     ```
 
 2. **Construir la imatge de Docker:**

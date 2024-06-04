@@ -1,130 +1,117 @@
-Preparar i aixecar l'API Flask del register, hi ha dues maneres, amb Docker o amb Flask:
+# Preparing and Running the Flask API for the Register
 
-## Requisits per Docker
-- Docker
-- Git
+There are two ways to prepare and run the API: using Docker or directly with Flask.
 
-## Instruccions per a construir i executar l'aplicació amb Docker
+## Requirements for Docker
 
-1. **Clonar el repositori:**
+Docker
+Git
+## Instructions to Build and Run the Application with Docker
 
-    ```
-    git clone https://github.com/PolMuri/api.git
-    cd api
-    ```
+1.Clone the Repository:
+```
+git clone https://github.com/PolMuri/api.git
+cd api
+```
 
-2. **Construir la imatge de Docker:**
+2.Build the Docker Image:
+````
+docker image build -t register_docker1 .
+````
 
-    ```
-    docker image build -t register_docker1 .
-    ```
+3.Run the Container:
+````
+docker run -p 80:5000 register_docker1
+````
 
-3. **Executar el contenidor:**
+Alternatively, if you want to control exactly where these persistent data are stored on your host system, you should use the -v option when running the container. This allows you to mount a specific directory from your host system instead of the anonymous volume Docker creates by default.
+````
+docker run -p 80:5000 -v /path/to/local/folder:/data register_docker1
+````
+Note: Replace ``/path/to/local/folder`` with the actual path on your system where you want to store the persistent data.
 
-    ```
-    docker run -p 80:5000 register_docker1
-    ```
+4.Verify the Application is Running:
 
-   o si vols controlar exactament on es guarden aquestes dades persistents en el teu sistema host, has d'utilitzar l'opció -v quan executis el contenidor. Això et permet muntar un directori 
-   específic del teu sistema host en lloc del volum anònim que Docker crea per defecte.
+Open a browser and go to ``http://localhost:80``. You should see the application running.
 
-   ```
-    docker run -p 80:5000 -v /path/to/local/folder:/data register_docker1
-   ```
-   
+5.Make a Test Request with Curl:
+````
+curl -d '{"email":"youremail@example.com"}' -H "Content-Type: application/json" -X POST http://localhost/api/register/
+````
 
-    Nota: Substitueix `/path/to/local/folder` pel camí real al teu sistema on vols emmagatzemar les dades persistents.
+## Initial Configuration to Run the Application with Flask
+1.Clone the Repository:
+````
+git clone <repository_url.git> cd <directory_name>
+````
 
-5. **Verificar que l'aplicació està en funcionament:**
+2.Configure the Database:
 
-    Obre un navegador i accedeix a `http://localhost:80`. Hauries de veure l'aplicació en funcionament.
+You can use a script or specific tools to initialize or configure the database as needed.
 
-6. **Fer una petició de prova amb `curl`:**
+## Run the API:
+````
+python app.py
+````
+The API will be available by default at ``http://127.0.0.1:5000/``.
 
-    ```
-    curl -d '{"email":"bustia@decorreu.com"}' -H "Content-Type: application/json" -X POST http://localhost/api/register/
-    ```
+## Testing the API
 
+1.Register a User:
 
+-Allows you to register new users by providing their email address.
 
-## Configuració Inicial per aixecar l'aplicació amb Flask  
+-Generates a unique authentication token for each registered user.
 
-1. **Clonar el Repositori:**   
-     ``git clone <url_del_repositori.git>  cd <nom_del_directori>``
-    
-2. **Configurar la Base de Dades:**
-    
-    - Podeu utilitzar un script o eines específiques per inicialitzar o configurar la base de dades segons les necessitats.
+-Stores user information, including their email and token, in a database file db.json.
+````
+curl -X POST -H "Content-Type: application/json" -d '{"email": "example@email.com"}' http://127.0.0.1:5000/api/register/
+````
+This will return a token and register the user in the database.
 
-## Execució de l'API
+You can find the registered user in the db.json file, which is automatically created if it does not already exist and acts as the database.
 
-1. **Aixecar l'API Flask:**
-    
-    `python app.py`
-    
-    L'API estarà disponible per defecte a `http://127.0.0.1:5000/`.
+2.Initialize Password:
 
-## Provar l'API
+-Allows initializing passwords for existing users.
 
-1. **Registrar un Usuari:**
+-Finds a user by their token and saves a secure hash of the provided password in db.json.
+````
+curl -X POST -H "Content-Type: application/json" -d '{"token": "token", "password": "password"}' http://127.0.0.1:5000/api/init/
+````
+This will initialize the password for the user associated with the provided token.
 
-    -Permet registrar nous usuaris proporcionant la seva adreça de correu electrònic.
+3.Login:
 
-    -Genera un token d'autenticació únic per a cada usuari registrat.
+-Facilitates the login process for registered users.
 
-    -Emmagatzema la informació dels usuaris, incloent-hi el seu correu electrònic i el token, en un fitxer de base de dades db.json.
-    
-    ```
-    curl -X POST -H "Content-Type: application/json" -d '{"email": "example@email.com"}' http://127.0.0.1:5000/api/register/
-    ```
-    Això retornarà un token i registrarà l'usuari a la base de dades.
-    
-    Es pot cercar l'usuari registrat al fitxer db.json creat de forma automàtica si no existeix ja aquest fitxer que actua com a BD.
+-Generates an authorization token (Bearer token) for the provided user, allowing access to protected resources.
+````
+curl -X POST -H "Content-Type: application/json" -d '{"email": "example@email.com", "password": "password"}' http://127.0.0.1:5000/api/login
+````
+This will log in the user with the provided email and password.
 
-2. **Inicialitzar Contrasenya:**
+4.Verify Token:
 
-    -Permet inicialitzar les contrasenyes per als usuaris existents.
+-Allows verifying a JWT authorization token and displays its content (payload).
 
-    -Cerca un usuari pel seu token i guarda un hash segur de la contrasenya proporcionada a db.json.
+-Requires the public key associated with the private key used during the login process.
+````
+curl -X POST -H "Content-Type: application/json" -d '{"token": "token"}' http://127.0.0.1:5000/api/verify
+````
+This will verify the provided token and display the payload of the JWT if it is valid.
 
-    ```
-    curl -X POST -H "Content-Type: application/json" -d '{"token": "token", "password": "password"}' http://127.0.0.1:5000/api/init/
-    ```
-    Això inicialitzarà la contrasenya de l'usuari associat amb el token proporcionat.
+## Project Structure
 
-3. **Iniciar Sessió:**
+-app.py: Main file that defines the Flask application and routes.
+-register.py: Registration logic with functions such as generate_token, is_valid_email, and add_user.
+-db.py: Database-related functions such as load_data, save_data, is_valid_email, and add_user.
+-init.py: Functions related to password initialization such as initialize_password.
+-login.py: Functions related to login such as login and validate_password.
+-verify.py: Contains the function to verify a JWT token verify_token.
 
-    -Facilita el procés d'inici de sessió pels usuaris registrats.
+##Note
 
-    -Genera un token d'autorització (Bearer token) per a l'usuari proporcionat, permetent l'accés a recursos protegits.
-
-    ```
-    curl -X POST -H "Content-Type: application/json" -d '{"email": "example@email.com", "password": "password"}' http://127.0.0.1:5000/api/login
-    ```
-    Això iniciarà la sessió de l'usuari amb l'email i la contrasenya proporcionats.
-
-4. **Verificar Token:**
-
-    -Permet verificar un token d'autorització JWT i mostrar el seu contingut (payload).
-
-    -Requereix la clau pública associada a la clau privada utilitzada durant el procés d'inici de sessió.
-
-    ```
-    curl -X POST -H "Content-Type: application/json" -d '{"token": "token"}' http://127.0.0.1:5000/api/verify
-    ```
-    Això verificarà el token proporcionat i mostrarà el contingut (payload) del JWT si és vàlid.
-
-## Estructures del Projecte
-
-- **app.py:** Fitxer principal que defineix l'aplicació Flask i les rutes.
-- **register.py:** Lògica del registre amb funcions com `generate_token`, `is_valid_email`, i `add_user`.
-- **db.py:** Funcions relacionades amb la base de dades com `load_data`, `save_data`, `is_valid_email`, i `add_user`.
-- **init.py**: Funcions relacionades amb la inicialització de contrasenya com `initialize_password`.
-- **login.py:** Funcions relacionades amb l'inici de sessió com `login` i `validate_password`.
-- **verify.py:** Conté la funció per verificar un token JWT `verify_token`.
-
-## Nota
-
-Assegura't de tenir Python i les eines requerides instal·lades a l'entorn abans d'executar l'API.
+Make sure to have Python and the required tools installed in the environment before running the API.
 
 

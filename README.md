@@ -8,18 +8,18 @@ Docker
 Git
 ## Instructions to Build and Run the Application with Docker
 
-1.Clone the Repository:
+### 1. Clone the Repository:
 ```
 git clone https://github.com/PolMuri/api.git
 cd api
 ```
 
-2.Build the Docker Image:
+### 2. Build the Docker Image:
 ````
 docker image build -t register_docker1 .
 ````
 
-3.Run the Container:
+### 3. Run the Container:
 ````
 docker run -p 80:5000 register_docker1
 ````
@@ -30,22 +30,22 @@ docker run -p 80:5000 -v /path/to/local/folder:/data register_docker1
 ````
 Note: Replace ``/path/to/local/folder`` with the actual path on your system where you want to store the persistent data.
 
-4.Verify the Application is Running:
+### 4. Verify the Application is Running:
 
 Open a browser and go to ``http://localhost:80``. You should see the application running.
 
-5.Make a Test Request with Curl:
+### 5. Make a Test Request with Curl:
 ````
 curl -d '{"email":"youremail@example.com"}' -H "Content-Type: application/json" -X POST http://localhost/api/register/
 ````
 
 ## Initial Configuration to Run the Application with Flask
-1.Clone the Repository:
+### 1. Clone the Repository:
 ````
 git clone <repository_url.git> cd <directory_name>
 ````
 
-2.Configure the Database:
+### 2. Configure the Database:
 
 You can use a script or specific tools to initialize or configure the database as needed.
 
@@ -57,7 +57,7 @@ The API will be available by default at ``http://127.0.0.1:5000/``.
 
 ## Testing the API
 
-1.Register a User:
+### 1. Register a User:
 
 -Allows you to register new users by providing their email address.
 
@@ -71,7 +71,7 @@ This will return a token and register the user in the database.
 
 You can find the registered user in the db.json file, which is automatically created if it does not already exist and acts as the database.
 
-2.Initialize Password:
+### 2. Initialize Password:
 
 -Allows initializing passwords for existing users.
 
@@ -81,7 +81,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"token": "token", "passwor
 ````
 This will initialize the password for the user associated with the provided token.
 
-3.Login:
+### 3. Login:
 
 -Facilitates the login process for registered users.
 
@@ -91,7 +91,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"email": "example@email.co
 ````
 This will log in the user with the provided email and password.
 
-4.Verify Token:
+### 4. Verify Token:
 
 -Allows verifying a JWT authorization token and displays its content (payload).
 
@@ -110,7 +110,7 @@ This will verify the provided token and display the payload of the JWT if it is 
 -login.py: Functions related to login such as login and validate_password.
 -verify.py: Contains the function to verify a JWT token verify_token.
 
-##Note
+## Note
 
 Make sure to have Python and the required tools installed in the environment before running the API.
 

@@ -104,10 +104,15 @@ This will verify the provided token and display the payload of the JWT if it is 
 ## Project Structure
 
 -app.py: Main file that defines the Flask application and routes.
+
 -register.py: Registration logic with functions such as generate_token, is_valid_email, and add_user.
+
 -db.py: Database-related functions such as load_data, save_data, is_valid_email, and add_user.
+
 -init.py: Functions related to password initialization such as initialize_password.
+
 -login.py: Functions related to login such as login and validate_password.
+
 -verify.py: Contains the function to verify a JWT token verify_token.
 
 ## Note

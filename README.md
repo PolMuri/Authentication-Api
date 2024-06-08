@@ -1,3 +1,5 @@
+#  API developed with Flask for managing user registrations. The API can be prepared and run in two ways: using Docker or directly with Flask.
+
 # Preparing and Running the Flask API for the Register
 
 There are two ways to prepare and run the API: using Docker or directly with Flask.

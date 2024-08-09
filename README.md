@@ -57,7 +57,7 @@ python app.py
 ````
 The API will be available by default at ``http://127.0.0.1:5000/``.
 
-## Testing the API
+## Testing the API with Flask
 
 ### 1. Register a User:
 
